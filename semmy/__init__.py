@@ -56,6 +56,9 @@ class Semver:
 
         return False
 
+    def __ge__(self, other: object) -> bool:
+        return self > other or self == other
+
     def __lt__(self, other: object) -> bool:
         if isinstance(other, Semver):
             return self.lesser(other)
