@@ -62,3 +62,6 @@ class Semver:
 
     def __repr__(self) -> str:
         return f"Version ({self})"
+
+    def bump_major(self) -> Semver:
+        return Semver(major=self.major + 1, minor=0, patch=0)
