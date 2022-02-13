@@ -56,9 +56,22 @@ class Semver:
 
         return False
 
+    def __lt__(self, other: object) -> bool:
+        if isinstance(other, Semver):
+            return self.lesser(other)
+
+        return False
+
     def greater(self, other: Semver) -> bool:
         for a, b in zip(self.as_tuple(), other.as_tuple()):
             if a > b:
+                return True
+
+        return False
+
+    def lesser(self, other: Semver) -> bool:
+        for a, b in zip(self.as_tuple(), other.as_tuple()):
+            if a < b:
                 return True
 
         return False
