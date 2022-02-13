@@ -1,0 +1,59 @@
+[tool.poetry]
+name = "semmy"
+description = "Semantic versioning made easy for Python"
+version = "0.1.0"
+authors = [
+    "Niko Heikkilä <yo@nikoheikkila.fi>"
+]
+license = "MIT"
+readme = "README.md"
+homepage = "https://pypi.org/project/semmy/"
+repository = "https://github.com/nikoheikkila/semmy"
+documentation = "https://github.com/nikoheikkila/semmy/blob/main/README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.8"
+
+[tool.poetry.dev-dependencies]
+publicator = "^1.0.0"
+pytest = "^7.0.0"
+pytest-mock = "^3.6.1"
+mypy = "^0.931"
+black = "^22.1.0"
+flake8 = "^4.0.1"
+mutmut = "^2.2.0"
+hypothesis = "^6.36.1"
+
+[tool.poetry.urls]
+"Bug Tracker" = "https://github.com/nikoheikkila/semmy/issues"
+"Discussions" = "https://github.com/nikoheikkila/semmy/discussions"
+
+[tool.publicator]
+any-branch = false
+clean = true
+publish = true
+push = true
+release-draft = true
+tag = true
+template = "release: %s"
+test-script = "pytest -x --assert=plain"
+
+[tool.black]
+line-length = 120
+include = "\\.pyi?$"
+
+[tool.mypy]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = [
+    "tests",
+]
+
+[tool.mutmut]
+paths_to_mutate = "Semmy/"
+tests_dir = "tests/"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
