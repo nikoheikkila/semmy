@@ -53,6 +53,7 @@ testpaths = [
 [tool.mutmut]
 paths_to_mutate = "Semmy/"
 tests_dir = "tests/"
+disable_mutation_types = "string"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
