@@ -13,8 +13,8 @@
 * Parses semantic version domain objects from valid strings
 * Check if two versions are equal
 * Check if version is a pre-release
-* Check if version is are greater/less (upcoming)
-* Bump versions according to different strategies (upcoming)
+* Bump (pre-)major, (pre-)minor, and (pre-)patch versions
+* Check if version is greater (newer) or lesser (older) than other version (upcoming)
 
 ## API
 
