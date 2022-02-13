@@ -57,7 +57,7 @@ class Semver:
         return False
 
     def __ge__(self, other: object) -> bool:
-        return self > other or self == other
+        return self == other or self > other
 
     def __lt__(self, other: object) -> bool:
         if isinstance(other, Semver):
@@ -66,21 +66,24 @@ class Semver:
         return False
 
     def __le__(self, other: object) -> bool:
-        return self < other or self == other
+        return self == other or self < other
 
     def greater(self, other: Semver) -> bool:
-        for a, b in zip(self.as_tuple(), other.as_tuple()):
+        for a, b in self.__zip_with(other):
             if a > b:
                 return True
 
         return False
 
     def lesser(self, other: Semver) -> bool:
-        for a, b in zip(self.as_tuple(), other.as_tuple()):
+        for a, b in self.__zip_with(other):
             if a < b:
                 return True
 
         return False
+
+    def __zip_with(self, other: Semver) -> zip[Tuple[int, int]]:
+        return zip(self.as_tuple(), other.as_tuple())
 
     def __str__(self) -> str:
         result = f"{self.major}.{self.minor}.{self.patch}"
