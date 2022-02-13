@@ -65,6 +65,9 @@ class Semver:
 
         return False
 
+    def __le__(self, other: object) -> bool:
+        return self < other or self == other
+
     def greater(self, other: Semver) -> bool:
         for a, b in zip(self.as_tuple(), other.as_tuple()):
             if a > b:
