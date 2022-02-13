@@ -158,6 +158,21 @@ def test_patch_bump(original: Semver, expected: Semver) -> None:
     assert original.bump_patch() == expected
 
 
+def test_premajor_bump() -> None:
+    metadata = "rc-2"
+    assert Semver(0, 1, 0).bump_premajor(metadata) == Semver(1, 0, 0, pre_release=metadata)
+
+
+def test_preminor_bump() -> None:
+    metadata = "rc-2"
+    assert Semver(0, 1, 0).bump_preminor(metadata) == Semver(0, 2, 0, pre_release=metadata)
+
+
+def test_prepatch_bump() -> None:
+    metadata = "rc-2"
+    assert Semver(0, 1, 0).bump_prepatch(metadata) == Semver(0, 1, 1, pre_release=metadata)
+
+
 @given(builds(Semver, major=just(0), minor=integers(), patch=integers(), pre_release=text(), build=text()))
 def test_0_x_is_pre_release(semver: Semver) -> None:
     assert semver.is_pre_release

@@ -63,11 +63,20 @@ class Semver:
     def __repr__(self) -> str:
         return f"Version ({self})"
 
-    def bump_major(self) -> Semver:
-        return Semver(major=self.major + 1, minor=0, patch=0)
+    def bump_major(self, **kwargs: str) -> Semver:
+        return Semver(major=self.major + 1, minor=0, patch=0, **kwargs)
 
-    def bump_minor(self) -> Semver:
-        return Semver(major=self.major, minor=self.minor + 1, patch=0)
+    def bump_premajor(self, metadata: str = "rc-1") -> Semver:
+        return self.bump_major(pre_release=metadata)
 
-    def bump_patch(self) -> Semver:
-        return Semver(major=self.major, minor=self.minor, patch=self.patch + 1)
+    def bump_minor(self, **kwargs: str) -> Semver:
+        return Semver(major=self.major, minor=self.minor + 1, patch=0, **kwargs)
+
+    def bump_preminor(self, metadata: str = "rc-1") -> Semver:
+        return self.bump_minor(pre_release=metadata)
+
+    def bump_patch(self, **kwargs: str) -> Semver:
+        return Semver(major=self.major, minor=self.minor, patch=self.patch + 1, **kwargs)
+
+    def bump_prepatch(self, metadata: str = "rc-1") -> Semver:
+        return self.bump_patch(pre_release=metadata)
