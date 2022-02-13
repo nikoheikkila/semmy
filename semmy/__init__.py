@@ -50,6 +50,19 @@ class Semver:
 
         return False
 
+    def __gt__(self, other: object) -> bool:
+        if isinstance(other, Semver):
+            return self.greater(other)
+
+        return False
+
+    def greater(self, other: Semver) -> bool:
+        for a, b in zip(self.as_tuple(), other.as_tuple()):
+            if a > b:
+                return True
+
+        return False
+
     def __str__(self) -> str:
         result = f"{self.major}.{self.minor}.{self.patch}"
 

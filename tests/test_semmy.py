@@ -175,9 +175,9 @@ def test_prepatch_bump() -> None:
 
 @given(builds(Semver, major=just(0), minor=integers(), patch=integers(), pre_release=text(), build=text()))
 def test_0_x_is_pre_release(semver: Semver) -> None:
-    assert semver.is_pre_release
+    assert semver.is_pre_release()
 
 
 @given(builds(Semver, major=integers(), minor=integers(), patch=integers(), pre_release=text(min_size=1), build=text()))
 def test_is_marked_pre_release(semver: Semver) -> None:
-    assert semver.is_pre_release
+    assert semver.is_pre_release()
