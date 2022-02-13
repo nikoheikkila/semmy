@@ -145,6 +145,19 @@ def test_minor_bump(original: Semver, expected: Semver) -> None:
     assert original.bump_minor() == expected
 
 
+@mark.parametrize(
+    ("original", "expected"),
+    [
+        [Semver(0, 1, 0), Semver(0, 1, 1)],
+        [Semver(1, 0, 0), Semver(1, 0, 1)],
+        [Semver(2, 1, 0), Semver(2, 1, 1)],
+        [Semver(3, 1, 1), Semver(3, 1, 2)],
+    ],
+)
+def test_patch_bump(original: Semver, expected: Semver) -> None:
+    assert original.bump_patch() == expected
+
+
 @given(builds(Semver, major=just(0), minor=integers(), patch=integers(), pre_release=text(), build=text()))
 def test_0_x_is_pre_release(semver: Semver) -> None:
     assert semver.is_pre_release

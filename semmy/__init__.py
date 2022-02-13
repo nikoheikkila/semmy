@@ -68,3 +68,6 @@ class Semver:
 
     def bump_minor(self) -> Semver:
         return Semver(major=self.major, minor=self.minor + 1, patch=0)
+
+    def bump_patch(self) -> Semver:
+        return Semver(major=self.major, minor=self.minor, patch=self.patch + 1)
