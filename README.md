@@ -1,6 +1,6 @@
 <h1>🐊 Semmy</h1>
 
-> Semantic versioning made easy for Python.
+> [Semantic versioning](https://semver.org) made easy for Python.
 
 * [Features](#features)
 * [Prerequisites](#prerequisites)
@@ -148,10 +148,10 @@ Typically, you want to bump major version for breaking changes, minor version fo
 >>> Semver(0, 1, 0).bump_major()
 Version (1.0.0)
 
-Semver(1, 0, 0).bump_minor()
+>>> Semver(1, 0, 0).bump_minor()
 Version (1.1.0)
 
-Semver(1, 1, 0).bump_patch()
+>>> Semver(1, 1, 0).bump_patch()
 Version (1.1.1)
 ```
 
