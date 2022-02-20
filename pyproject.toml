@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "semmy"
 description = "Semantic versioning made easy for Python"
-version = "0.4.0"
+version = "1.0.0"
 authors = [
     "Niko Heikkilä <yo@nikoheikkila.fi>"
 ]
