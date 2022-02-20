@@ -15,6 +15,8 @@ SEMVER_REGEX = re.compile(
 
 
 class SemverException(Exception):
+    """Raised for invalid semantic version numbers"""
+
     pass
 
 
@@ -26,14 +28,13 @@ class Semver:
     pre_release: str = ""
     build: str = ""
 
-    def is_pre_release(self) -> bool:
-        if self.pre_release:
-            return True
-
-        return self.major == 0
-
     @classmethod
     def from_string(cls, version: str) -> Semver:
+        """Parses a new semantic version object from input string
+
+        Raises
+            SemverException: for invalid input
+        """
         if not SEMVER_REGEX.fullmatch(version):
             raise SemverException(f"Version string {version} is not a valid semantic version")
 
@@ -42,7 +43,39 @@ class Semver:
         return Semver(int(major), int(minor), int(patch), pre_release, build)
 
     def as_tuple(self) -> Tuple[int, int, int]:
+        """Exports version as integer tuple"""
         return (self.major, self.minor, self.patch)
+
+    def is_pre_release(self) -> bool:
+        """Checks whether the version is considered pre-release"""
+        if self.pre_release:
+            return True
+
+        return self.major == 0
+
+    def bump_major(self, **kwargs: str) -> Semver:
+        """Bumps the major version component"""
+        return Semver(major=self.major + 1, minor=0, patch=0, **kwargs)
+
+    def bump_premajor(self, metadata: str = "rc-1") -> Semver:
+        """Bumps the major version component and adds pre-release tag"""
+        return self.bump_major(pre_release=metadata)
+
+    def bump_minor(self, **kwargs: str) -> Semver:
+        """Bumps the minor version component"""
+        return Semver(major=self.major, minor=self.minor + 1, patch=0, **kwargs)
+
+    def bump_preminor(self, metadata: str = "rc-1") -> Semver:
+        """Bumps the minor version component and adds pre-release tag"""
+        return self.bump_minor(pre_release=metadata)
+
+    def bump_patch(self, **kwargs: str) -> Semver:
+        """Bumps the patch version component"""
+        return Semver(major=self.major, minor=self.minor, patch=self.patch + 1, **kwargs)
+
+    def bump_prepatch(self, metadata: str = "rc-1") -> Semver:
+        """Bumps the patch version component and adds pre-release tag"""
+        return self.bump_patch(pre_release=metadata)
 
     def __eq__(self, other: object) -> bool:
         if isinstance(other, Semver):
@@ -52,7 +85,7 @@ class Semver:
 
     def __gt__(self, other: object) -> bool:
         if isinstance(other, Semver):
-            return self.greater(other)
+            return self.__greater__(other)
 
         return False
 
@@ -61,21 +94,21 @@ class Semver:
 
     def __lt__(self, other: object) -> bool:
         if isinstance(other, Semver):
-            return self.lesser(other)
+            return self.__lesser__(other)
 
         return False
 
     def __le__(self, other: object) -> bool:
         return self == other or self < other
 
-    def greater(self, other: Semver) -> bool:
+    def __greater__(self, other: Semver) -> bool:
         for a, b in self.__zip_with(other):
             if a > b:
                 return True
 
         return False
 
-    def lesser(self, other: Semver) -> bool:
+    def __lesser__(self, other: Semver) -> bool:
         for a, b in self.__zip_with(other):
             if a < b:
                 return True
@@ -97,21 +130,3 @@ class Semver:
 
     def __repr__(self) -> str:
         return f"Version ({self})"
-
-    def bump_major(self, **kwargs: str) -> Semver:
-        return Semver(major=self.major + 1, minor=0, patch=0, **kwargs)
-
-    def bump_premajor(self, metadata: str = "rc-1") -> Semver:
-        return self.bump_major(pre_release=metadata)
-
-    def bump_minor(self, **kwargs: str) -> Semver:
-        return Semver(major=self.major, minor=self.minor + 1, patch=0, **kwargs)
-
-    def bump_preminor(self, metadata: str = "rc-1") -> Semver:
-        return self.bump_minor(pre_release=metadata)
-
-    def bump_patch(self, **kwargs: str) -> Semver:
-        return Semver(major=self.major, minor=self.minor, patch=self.patch + 1, **kwargs)
-
-    def bump_prepatch(self, metadata: str = "rc-1") -> Semver:
-        return self.bump_patch(pre_release=metadata)
