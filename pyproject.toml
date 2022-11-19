@@ -28,6 +28,9 @@ hypothesis = "^6.36.1"
 "Bug Tracker" = "https://github.com/nikoheikkila/semmy/issues"
 "Discussions" = "https://github.com/nikoheikkila/semmy/discussions"
 
+[tool.poetry.group.dev.dependencies]
+assertpy = "^1.1"
+
 [tool.publicator]
 any-branch = false
 clean = true
