@@ -16,7 +16,7 @@ python = ">=3.8.1"
 
 [tool.poetry.dev-dependencies]
 publicator = "^1.0.0"
-pytest = "^7.0.0"
+pytest = "^8.0.0"
 pytest-mock = "^3.6.1"
 mypy = "^1.0"
 black = "^23.0.0"
