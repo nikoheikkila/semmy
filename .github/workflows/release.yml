@@ -25,6 +25,7 @@ jobs:
           config-file: .release-please-config.json
 
       - name: Announce next version
+        if: steps.release.outputs.release_created
         env:
           version: ${{ steps.release.outputs.version }}
         run: echo "The next version will be released as **${version}!**" >> "$GITHUB_STEP_SUMMARY"
