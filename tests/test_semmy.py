@@ -1,13 +1,15 @@
-from pytest import mark, raises
-from hypothesis import given
-from hypothesis.strategies import builds, integers, text, just
+from typing import ClassVar
+
 from assertpy import assert_that as verify
+from hypothesis import given
+from hypothesis.strategies import builds, integers, just, text
+from pytest import mark, raises
 
 from semmy import Semver, SemverException
 
 
 class TestSemmy:
-    VALID_VERSIONS = [
+    VALID_VERSIONS: ClassVar[list[list[str | Semver]]] = [
         ["0.0.4", Semver(0, 0, 4)],
         ["1.2.3", Semver(1, 2, 3)],
         ["10.20.30", Semver(10, 20, 30)],
@@ -50,7 +52,7 @@ class TestSemmy:
         ["1.0.0-0A.is.legal", Semver(1, 0, 0, pre_release="0A.is.legal")],
     ]
 
-    INVALID_VERSIONS = [
+    INVALID_VERSIONS: ClassVar[list[str]] = [
         "1",
         "1.2",
         "1.2.3-0123",
