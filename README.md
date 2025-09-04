@@ -14,6 +14,7 @@
   * [Comparing versions](#comparing-versions)
   * [Bumping versions](#bumping-versions)
 * [Contributing](#contributing)
+* [Release Setup](#release-setup)
 
 ## Features
 
@@ -158,3 +159,140 @@ Version (1.1.1)
 ## Contributing
 
 See [**here**](CONTRIBUTING.md) for instructions.
+
+## Release Setup
+
+This project uses automated releases with [Release Please](https://github.com/googleapis/release-please) and GitHub Actions.
+
+### Required GitHub Repository Secrets
+
+Before the release workflow can function properly, you need to configure the following secrets in your GitHub repository:
+
+#### PYPI_API_TOKEN
+
+**Purpose**: Authenticate with PyPI for publishing packages
+
+**Setup Instructions**:
+
+1. Go to [PyPI Account Settings](https://pypi.org/manage/account/)
+2. Navigate to the "API tokens" section
+3. Click "Add API token"
+4. Set the token name (e.g., "semmy-github-actions")
+5. Set the scope to "Entire account" or specific to the "semmy" project
+6. Copy the generated token (it starts with `pypi-`)
+7. Add it to your GitHub repository secrets as `PYPI_API_TOKEN`
+
+**Alternative: PyPI Trusted Publishing** (Recommended)
+
+Instead of using an API token, you can set up trusted publishing which is more secure:
+
+1. Go to your project on PyPI: https://pypi.org/manage/project/semmy/
+2. Navigate to "Publishing" → "Add a new pending publisher"
+3. Fill in the details:
+   - **Owner**: `nikoheikkila` (your GitHub username)
+   - **Repository name**: `semmy`
+   - **Workflow name**: `release.yml`
+   - **Environment name**: Leave empty (unless you use environments)
+4. Save the publisher
+
+If you use trusted publishing, you can remove the `UV_PUBLISH_TOKEN` environment variable from the workflow.
+
+### How the Release Process Works
+
+#### 1. Release Please Phase
+
+When you push commits to the `main` branch:
+
+1. **Release Please** analyzes conventional commit messages since the last release
+2. If release-worthy changes are found, it creates/updates a "Release PR"
+3. The Release PR contains:
+   - Updated version in `pyproject.toml`
+   - Updated `CHANGELOG.md`
+   - Any other version-related files
+
+#### 2. Release Creation Phase
+
+When you merge the Release PR:
+
+1. **Release Please** creates a GitHub Release and Git tag
+2. The workflow triggers the **Publish** job
+3. The publish job:
+   - Runs tests to ensure quality
+   - Builds the package with `uv build`
+   - Publishes to PyPI with `uv publish`
+   - Creates a workflow summary
+
+### Conventional Commit Types
+
+The workflow recognizes these conventional commit types:
+
+| Type | Description | Release Impact | Changelog Section |
+|------|-------------|----------------|-------------------|
+| `feat` | New feature | Minor version bump | ✨ Features |
+| `fix` | Bug fix | Patch version bump | 🐛 Bug Fixes |
+| `perf` | Performance improvement | Patch version bump | ⚡ Performance Improvements |
+| `revert` | Revert previous change | Patch version bump | ⏪ Reverts |
+| `docs` | Documentation changes | Patch version bump | 📚 Documentation |
+| `style` | Code style changes | Patch version bump | 🎨 Styles |
+| `refactor` | Code refactoring | Patch version bump | ♻️ Code Refactoring |
+| `test` | Test changes | Patch version bump | ✅ Tests |
+| `build` | Build system changes | Patch version bump | 👷 Build System |
+| `ci` | CI configuration changes | Patch version bump | 💚 Continuous Integration |
+| `chore` | Maintenance tasks | No release | (Hidden from changelog) |
+
+#### Breaking Changes
+
+To trigger a **major version bump**, use:
+
+- `feat!:` or `fix!:` (with exclamation mark)
+- Include `BREAKING CHANGE:` in the commit message body
+
+### Example Commits
+
+```bash
+# Patch release (1.0.0 → 1.0.1)
+git commit -m "fix: resolve null pointer exception in parser"
+
+# Minor release (1.0.0 → 1.1.0) 
+git commit -m "feat: add support for YAML configuration files"
+
+# Major release (1.0.0 → 2.0.0)
+git commit -m "feat!: remove deprecated API methods"
+
+# Or with body:
+git commit -m "feat: new API design
+
+BREAKING CHANGE: The old API methods have been removed."
+```
+
+### Manual Release
+
+If you need to create a release manually:
+
+```bash
+# Create a commit that bumps the version
+git commit -m "chore(release): 1.2.3" --allow-empty
+
+# Push to main
+git push origin main
+```
+
+### Troubleshooting
+
+#### Release PR not created
+
+- Ensure your commits follow conventional commit format
+- Check that you have release-worthy commit types (not just `chore`)
+- Verify the workflow has proper permissions
+
+#### PyPI publish fails
+
+- Verify `PYPI_API_TOKEN` is correctly set
+- Ensure the package name isn't already taken by another user
+- Check that the version doesn't already exist on PyPI
+
+#### Tests fail during release
+
+- All tests must pass before publishing
+- Fix the failing tests and push the fix to main
+- The workflow will retry on the next push

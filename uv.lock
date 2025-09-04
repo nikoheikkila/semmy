@@ -206,15 +206,6 @@ wheels = [
 ]
 
 [[package]]
-name = "parse"
-version = "1.20.2"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/4f/78/d9b09ba24bb36ef8b83b71be547e118d46214735b6dfb39e4bfde0e9b9dd/parse-1.20.2.tar.gz", hash = "sha256:b41d604d16503c79d81af5165155c0b20f6c8d6c559efa66b4b695c3e5a0a0ce", size = 29391, upload-time = "2024-06-11T04:41:57.34Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/d0/31/ba45bf0b2aa7898d81cbbfac0e88c267befb59ad91a19e36e1bc5578ddb1/parse-1.20.2-py2.py3-none-any.whl", hash = "sha256:967095588cb802add9177d0c0b6133b5ba33b1ea9007ca800e526f42a85af558", size = 20126, upload-time = "2024-06-11T04:41:55.057Z" },
-]
-
-[[package]]
 name = "pathspec"
 version = "0.12.1"
 source = { registry = "https://pypi.org/simple" }
@@ -239,23 +230,6 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/f9/e2/3e91f31a7d2b083fe6ef3fa267035b518369d9511ffab804f839851d2779/pluggy-1.6.0.tar.gz", hash = "sha256:7dcc130b76258d33b90f61b658791dede3486c3e6bfb003ee5c9bfb396dd22f3", size = 69412, upload-time = "2025-05-15T12:30:07.975Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/54/20/4d324d65cc6d9205fabedc306948156824eb9f0ee1633355a8f7ec5c66bf/pluggy-1.6.0-py3-none-any.whl", hash = "sha256:e920276dd6813095e9377c0bc5566d94c932c33b27a3e3945d8389c374dd4746", size = 20538, upload-time = "2025-05-15T12:30:06.134Z" },
-]
-
-[[package]]
-name = "publicator"
-version = "1.3.0"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "colorama" },
-    { name = "parse" },
-    { name = "safe-assert" },
-    { name = "semmy" },
-    { name = "tomli" },
-    { name = "typer", extra = ["all"] },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/40/34/a9d4e9efe7891c556f04ba3f4d715f26b6c1c799e568a4cdaca178885126/publicator-1.3.0.tar.gz", hash = "sha256:0b126146b5307df5433c6b929d32ae2af6ecba4fa90cd65bb50d05a02dbab28b", size = 10994, upload-time = "2022-09-26T17:44:35.917Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/3e/22/827575dbd6cd44680d637f806227bc40908945fee145f866e807768eff3e/publicator-1.3.0-py3-none-any.whl", hash = "sha256:97e1e6bdc553ca9a5f52602b27202e739cc4c7599a1b06a79d27d5e773e3d123", size = 10103, upload-time = "2022-09-26T17:44:34.078Z" },
 ]
 
 [[package]]
@@ -361,17 +335,8 @@ wheels = [
 ]
 
 [[package]]
-name = "safe-assert"
-version = "0.2.0"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/25/ac/1321abe0a2397019bb2b2d225c5af9479f82d306983c79070d88564990ca/safe-assert-0.2.0.tar.gz", hash = "sha256:ac010a2544a993c3b17f60e54e14e7c82c64a8d4ced810fbbef05b6efc855931", size = 4155, upload-time = "2020-05-09T09:55:19.419Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/be/4b/4336537c0eecea67b743bc744ff1a5200af970e1da9f5751f9f2123b4869/safe_assert-0.2.0-py3-none-any.whl", hash = "sha256:5f8138562945aa1e102159b64d5db33c32133b7a55de2dcda45d018018eb4c84", size = 4224, upload-time = "2020-05-09T09:55:20.443Z" },
-]
-
-[[package]]
 name = "semmy"
-version = "1.0.0"
+version = "0.0.0"
 source = { editable = "." }
 
 [package.dev-dependencies]
@@ -381,7 +346,6 @@ dev = [
     { name = "hypothesis" },
     { name = "mutmut" },
     { name = "mypy" },
-    { name = "publicator" },
     { name = "pytest" },
     { name = "pytest-mock" },
     { name = "ruff" },
@@ -396,7 +360,6 @@ dev = [
     { name = "hypothesis", specifier = ">=6.36.1" },
     { name = "mutmut", specifier = ">=2.2.0" },
     { name = "mypy", specifier = ">=1.0" },
-    { name = "publicator", specifier = ">=1.0.0" },
     { name = "pytest", specifier = ">=8.0.0" },
     { name = "pytest-mock", specifier = ">=3.6.1" },
     { name = "ruff", specifier = ">=0.1.0" },
@@ -447,15 +410,6 @@ wheels = [
 ]
 
 [[package]]
-name = "shellingham"
-version = "1.5.4"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/58/15/8b3609fd3830ef7b27b655beb4b4e9c62313a4e8da8c676e142cc210d58e/shellingham-1.5.4.tar.gz", hash = "sha256:8dbca0739d487e5bd35ab3ca4b36e11c4078f3a234bfce294b0a0291363404de", size = 10310, upload-time = "2023-10-24T04:13:40.426Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/e0/f9/0595336914c5619e5f28a1fb793285925a8cd4b432c9da0a987836c7f822/shellingham-1.5.4-py2.py3-none-any.whl", hash = "sha256:7ecfff8f2fd72616f7481040475a65b2bf8af90a56c89140852d1120324e8686", size = 9755, upload-time = "2023-10-24T04:13:38.866Z" },
-]
-
-[[package]]
 name = "sortedcontainers"
 version = "2.4.0"
 source = { registry = "https://pypi.org/simple" }
@@ -476,34 +430,6 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/90/9d/c36bbdd0924fa8eef8e26f390cfbb296c11c06182cb154d2d069c120274b/textual-0.8.2.tar.gz", hash = "sha256:1492e8d35b52584813a8c1e01e921dcee29b782d97352fba74726db74750cbe2", size = 240465, upload-time = "2022-12-28T10:56:32.816Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/ba/68/03fb5118f9557d13763a02ec548fcf40d4007ea44d1692d926982e6451f1/textual-0.8.2-py3-none-any.whl", hash = "sha256:59831bd846f9607947723aa5cea9aacd333711e75470d946273d64b594ebbafd", size = 286123, upload-time = "2022-12-28T10:56:31.242Z" },
-]
-
-[[package]]
-name = "tomli"
-version = "2.0.1"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/c0/3f/d7af728f075fb08564c5949a9c95e44352e23dee646869fa104a3b2060a3/tomli-2.0.1.tar.gz", hash = "sha256:de526c12914f0c550d15924c62d72abc48d6fe7364aa87328337a31007fe8a4f", size = 15164, upload-time = "2022-02-08T10:54:04.006Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/97/75/10a9ebee3fd790d20926a90a2547f0bf78f371b2f13aa822c759680ca7b9/tomli-2.0.1-py3-none-any.whl", hash = "sha256:939de3e7a6161af0c887ef91b7d41a53e7c5a1ca976325f429cb46ea9bc30ecc", size = 12757, upload-time = "2022-02-08T10:54:02.017Z" },
-]
-
-[[package]]
-name = "typer"
-version = "0.6.1"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "click" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/cf/f9/27c5cd9ab067e3ece4cecb920c33f38cc986f839b12de19650fd49dc3c63/typer-0.6.1.tar.gz", hash = "sha256:2d5720a5e63f73eaf31edaa15f6ab87f35f0690f8ca233017d7d23d743a91d73", size = 249789, upload-time = "2022-07-12T20:30:40.579Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/e8/9b/7470461c68588ed09c2e53cbb16b802815232796d95f7b4744cc8842f19d/typer-0.6.1-py3-none-any.whl", hash = "sha256:54b19e5df18654070a82f8c2aa1da456a4ac16a2a83e6dcd9f170e291c56338e", size = 38293, upload-time = "2022-07-12T20:30:38.849Z" },
-]
-
-[package.optional-dependencies]
-all = [
-    { name = "colorama" },
-    { name = "rich" },
-    { name = "shellingham" },
 ]
 
 [[package]]

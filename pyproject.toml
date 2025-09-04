@@ -1,7 +1,7 @@
 [project]
 name = "semmy"
 description = "Semantic versioning made easy for Python"
-version = "1.0.0"
+version = "0.0.0"
 authors = [
     { name = "Niko Heikkilä", email = "yo@nikoheikkila.fi" }
 ]
@@ -32,7 +32,6 @@ build-backend = "hatchling.build"
 
 [tool.uv]
 dev-dependencies = [
-    "publicator>=1.0.0",
     "pytest>=8.0.0",
     "pytest-mock>=3.6.1",
     "mypy>=1.0",
@@ -43,15 +42,6 @@ dev-dependencies = [
     "assertpy>=1.1",
 ]
 
-[tool.publicator]
-any-branch = false
-clean = true
-publish = true
-push = true
-release-draft = true
-tag = true
-template = "release: %s"
-test-script = "pytest -x --assert=plain"
 
 [tool.black]
 line-length = 120
