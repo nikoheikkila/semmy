@@ -1,7 +1,7 @@
+from assertpy import assert_that as verify
 from pytest import mark
 
 from semmy import Semver
-from assertpy import assert_that as verify
 
 
 class TestOrder:

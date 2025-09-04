@@ -2,33 +2,27 @@ version: "3"
 
 tasks:
   install:
-    desc: Install dependencies with Poetry
+    desc: Install dependencies with uv
     sources:
       - pyproject.toml
-      - poetry.lock
+      - uv.lock
     cmds:
-      - poetry install
+      - uv sync
 
   format:
-    desc: Format codebase with Black
+    desc: Format codebase
     deps:
       - install
-    sources:
-      - semmy/**/*.py
-      - tests/**/*.py
     cmds:
-      - poetry run black .
+      - uv run ruff format .
 
   lint:
     desc: Lint codebase for issues
-    sources:
-      - semmy/**/*.py
-      - tests/**/*.py
     deps:
       - install
     cmds:
-      - poetry run flake8 .
-      - poetry run mypy --strict -p semmy
+      - uv run ruff check .
+      - uv run mypy --strict -p semmy
 
   test:
     desc: Run all the tests
@@ -37,9 +31,11 @@ tasks:
     cmds:
       - task: "test:unit"
 
-  "test:unit":
-    sources:
-      - semmy/**/*.py
-      - tests/**/*.py
+  test:unit:
+    internal: true
     cmds:
-      - poetry run pytest
+      - uv run pytest
+
+  build:
+    cmds:
+      - uv build

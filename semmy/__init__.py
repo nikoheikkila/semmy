@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
-from __future__ import annotations
 import re
+from collections.abc import Iterator
 from dataclasses import dataclass
-from typing import Tuple
+from typing import Self
 
 # See: https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
 SEMVER_REGEX = re.compile(
@@ -29,7 +28,7 @@ class Semver:
     build: str = ""
 
     @classmethod
-    def from_string(cls, version: str) -> Semver:
+    def from_string(cls, version: str) -> Self:
         """Parses a new semantic version object from input string
 
         Raises
@@ -40,9 +39,9 @@ class Semver:
 
         major, minor, patch, pre_release, build = SEMVER_REGEX.findall(version).pop()
 
-        return Semver(int(major), int(minor), int(patch), pre_release, build)
+        return cls(int(major), int(minor), int(patch), pre_release, build)
 
-    def as_tuple(self) -> Tuple[int, int, int]:
+    def as_tuple(self) -> tuple[int, int, int]:
         """Exports version as integer tuple"""
         return (self.major, self.minor, self.patch)
 
@@ -53,27 +52,27 @@ class Semver:
 
         return self.major == 0
 
-    def bump_major(self, **kwargs: str) -> Semver:
+    def bump_major(self, **kwargs: str) -> Self:
         """Bumps the major version component"""
-        return Semver(major=self.major + 1, minor=0, patch=0, **kwargs)
+        return self.__class__(major=self.major + 1, minor=0, patch=0, **kwargs)
 
-    def bump_premajor(self, metadata: str = "rc-1") -> Semver:
+    def bump_premajor(self, metadata: str = "rc-1") -> Self:
         """Bumps the major version component and adds pre-release tag"""
         return self.bump_major(pre_release=metadata)
 
-    def bump_minor(self, **kwargs: str) -> Semver:
+    def bump_minor(self, **kwargs: str) -> Self:
         """Bumps the minor version component"""
-        return Semver(major=self.major, minor=self.minor + 1, patch=0, **kwargs)
+        return self.__class__(major=self.major, minor=self.minor + 1, patch=0, **kwargs)
 
-    def bump_preminor(self, metadata: str = "rc-1") -> Semver:
+    def bump_preminor(self, metadata: str = "rc-1") -> Self:
         """Bumps the minor version component and adds pre-release tag"""
         return self.bump_minor(pre_release=metadata)
 
-    def bump_patch(self, **kwargs: str) -> Semver:
+    def bump_patch(self, **kwargs: str) -> Self:
         """Bumps the patch version component"""
-        return Semver(major=self.major, minor=self.minor, patch=self.patch + 1, **kwargs)
+        return self.__class__(major=self.major, minor=self.minor, patch=self.patch + 1, **kwargs)
 
-    def bump_prepatch(self, metadata: str = "rc-1") -> Semver:
+    def bump_prepatch(self, metadata: str = "rc-1") -> Self:
         """Bumps the patch version component and adds pre-release tag"""
         return self.bump_patch(pre_release=metadata)
 
@@ -101,22 +100,22 @@ class Semver:
     def __le__(self, other: object) -> bool:
         return self == other or self < other
 
-    def __greater__(self, other: Semver) -> bool:
+    def __greater__(self, other: Self) -> bool:
         for a, b in self.__zip_with(other):
             if a > b:
                 return True
 
         return False
 
-    def __lesser__(self, other: Semver) -> bool:
+    def __lesser__(self, other: Self) -> bool:
         for a, b in self.__zip_with(other):
             if a < b:
                 return True
 
         return False
 
-    def __zip_with(self, other: Semver) -> zip[Tuple[int, int]]:
-        return zip(self.as_tuple(), other.as_tuple())
+    def __zip_with(self, other: Self) -> Iterator[tuple[int, int]]:
+        return zip(self.as_tuple(), other.as_tuple(), strict=True)
 
     def __str__(self) -> str:
         result = f"{self.major}.{self.minor}.{self.patch}"
