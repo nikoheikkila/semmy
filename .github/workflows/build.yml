@@ -11,9 +11,10 @@ on:
         description: Runner label
         type: string
         required: true
-
-permissions:
-  contents: read  # Read repository contents
+      version:
+        description: Version for uploading the built artifact
+        type: string
+        required: false
 
 jobs:
   build:
@@ -49,10 +50,10 @@ jobs:
       - name: Build package
         run: task build
 
-      - name: Upload build artifacts
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      - name: Upload build artifact
+        if: inputs.version != ''
         uses: actions/upload-artifact@v4
         with:
-          name: python-package-${{ inputs.python-version }}-${{ inputs.runner }}
+          name: semmy-${{ inputs.version }}
           path: dist/
           retention-days: 1

@@ -6,28 +6,16 @@ on:
       - main
 
 jobs:
-  build:
-    name: Build and Test
-    uses: ./.github/workflows/build.yml
-    permissions:
-      contents: read  # Read repository contents
-    with:
-      python-version: "3.13"
-      runner: ubuntu-latest
-
   release-please:
     name: Release Please
     runs-on: ubuntu-latest
-    needs: build
     permissions:
-      contents: write      # Create releases and tags
-      pull-requests: write # Create release PRs
+      contents: write
+      pull-requests: write
     outputs:
       release_created: ${{ steps.release.outputs.release_created }}
       tag_name: ${{ steps.release.outputs.tag_name }}
       version: ${{ steps.release.outputs.version }}
-      upload_url: ${{ steps.release.outputs.upload_url }}
-    
     steps:
       - name: Release Please
         id: release
@@ -36,18 +24,31 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           config-file: .release-please-config.json
 
+  build:
+    name: Build and Test
+    needs: release-please
+    uses: ./.github/workflows/build.yml
+    permissions:
+      contents: read
+    with:
+      python-version: "3.13"
+      runner: ubuntu-latest
+      version: ${{ needs.release-please.outputs.version }}
+
   publish:
     name: Publish to PyPI
+    if: needs.release-please.outputs.release_created
     runs-on: ubuntu-latest
     needs: [build, release-please]
-    if: needs.release-please.outputs.release_created
     permissions:
-      contents: read       # Read repository contents
-      id-token: write      # PyPI trusted publishing
-    
+      contents: read
+      id-token: write
     steps:
-      - name: Checkout
-        uses: actions/checkout@v5
+      - name: Download build artifact
+        uses: actions/download-artifact@v5
+        with:
+          name: semmy-${{ needs.release-please.outputs.version }}
+          path: dist/
 
       - name: Set up Python 3.13
         uses: actions/setup-python@v6
@@ -59,50 +60,30 @@ jobs:
           python3 -m pip install --user pipx
           python3 -m pipx ensurepath
           pipx install uv
-
-      - name: Download build artifacts
-        uses: actions/download-artifact@v5
-        with:
-          name: python-package-3.13-ubuntu-latest
-          path: dist/
-
-      - name: Verify version
-        run: |
-          # Verify that the version matches the release tag
-          PACKAGE_VERSION=$(python -c "import tomllib; print(tomllib.load(open('pyproject.toml', 'rb'))['project']['version'])")
-          RELEASE_VERSION="${{ needs.release-please.outputs.version }}"
-          
-          echo "Package version: $PACKAGE_VERSION"
-          echo "Release version: $RELEASE_VERSION"
-          
-          if [ "$PACKAGE_VERSION" != "$RELEASE_VERSION" ]; then
-            echo "❌ Version mismatch! Package: $PACKAGE_VERSION, Release: $RELEASE_VERSION"
-            exit 1
-          fi
-          
-          echo "✅ Version verification passed"
+          uv --version
 
       - name: Publish to PyPI
         env:
           UV_PUBLISH_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
-        run: |
-          echo "Publishing version ${{ needs.release-please.outputs.version }} to PyPI..."
-          uv publish --token "$UV_PUBLISH_TOKEN"
-          echo "Successfully published to PyPI!"
+        run: uv publish
 
       - name: Summary
+        env:
+          version: ${{ needs.release-please.outputs.version }}
+          tag_name: ${{ needs.release-please.outputs.tag_name }}
+          repository: ${{ github.repository }}
         run: |
           {
             echo "## 🎉 Release Summary"
             echo ""
-            echo "Successfully released version **${{ needs.release-please.outputs.version }}**"
+            echo "Successfully released version **$version**"
             echo ""
             echo "### 📦 Package Links"
-            echo "- **PyPI**: [semmy ${{ needs.release-please.outputs.version }}](https://pypi.org/project/semmy/${{ needs.release-please.outputs.version }}/)"
-            echo "- **GitHub Release**: [${{ needs.release-please.outputs.tag_name }}](https://github.com/${{ github.repository }}/releases/tag/${{ needs.release-please.outputs.tag_name }})"
+            echo "- **PyPI**: [semmy $version](https://pypi.org/project/semmy/$version/)"
+            echo "- **GitHub Release**: [$tag_name](https://github.com/$repository/releases/tag/$tag_name)"
             echo ""
             echo "### 📥 Installation"
             echo '```bash'
-            echo "pip install semmy==${{ needs.release-please.outputs.version }}"
+            echo "pip install semmy==$version"
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
