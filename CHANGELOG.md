@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.0.1](https://github.com/nikoheikkila/semmy/compare/v2.0.0...v2.0.1) (2025-09-04)
+
+
+### ♻️ Code Refactoring
+
+* optimise release and build pipelines ([88042c7](https://github.com/nikoheikkila/semmy/commit/88042c7c46ea16f989dbcedd925b5954a475bd04))
+
+
+### 💚 Continuous Integration
+
+* announce next version to release ([d7e0875](https://github.com/nikoheikkila/semmy/commit/d7e0875687a0fbbf5217c71887e799a68f2ffcf4))
+* do not announce the release version if not created ([040ecb0](https://github.com/nikoheikkila/semmy/commit/040ecb020dad3f79a4cfc259fc928fb77e786669))
+
 ## [2.0.0](https://github.com/nikoheikkila/semmy/compare/1.0.0...v2.0.0) (2025-09-04)
 
 

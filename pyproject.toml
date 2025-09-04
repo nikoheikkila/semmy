@@ -1,7 +1,7 @@
 [project]
 name = "semmy"
 description = "Semantic versioning made easy for Python"
-version = "2.0.0"
+version = "2.0.1"
 authors = [
     { name = "Niko Heikkilä", email = "yo@nikoheikkila.fi" }
 ]
