@@ -52,7 +52,7 @@ jobs:
 
       - name: Upload build artifact
         if: inputs.version != ''
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: semmy-${{ inputs.version }}
           path: dist/
