@@ -1,5 +1,22 @@
 # Changelog
 
+## [2.1.0](https://github.com/nikoheikkila/semmy/compare/v2.0.1...v2.1.0) (2026-05-14)
+
+
+### ✨ Features
+
+* **ordering:** implement spec-compliant version precedence ([3b42d6e](https://github.com/nikoheikkila/semmy/commit/3b42d6e947292eddb5e89098279b2731076da9df))
+
+
+### 📚 Documentation
+
+* add CLAUDE.md ([af70a71](https://github.com/nikoheikkila/semmy/commit/af70a713cc365ca55fce77fa3e935e554ed142b0))
+
+
+### ♻️ Code Refactoring
+
+* migrate type-checking from Mypy to Pyrefly ([8d63c02](https://github.com/nikoheikkila/semmy/commit/8d63c028a52b04c7554680cf65b5665b4edf8d42))
+
 ## [2.0.1](https://github.com/nikoheikkila/semmy/compare/v2.0.0...v2.0.1) (2025-09-04)
 
 
