@@ -1,5 +1,4 @@
 import re
-from collections.abc import Iterator
 from dataclasses import dataclass
 from typing import Self
 
@@ -84,38 +83,60 @@ class Semver:
 
     def __gt__(self, other: object) -> bool:
         if isinstance(other, Semver):
-            return self.__greater__(other)
-
+            return self.__compare(other) > 0
         return False
 
     def __ge__(self, other: object) -> bool:
-        return self == other or self > other
+        if isinstance(other, Semver):
+            return self.__compare(other) >= 0
+        return False
 
     def __lt__(self, other: object) -> bool:
         if isinstance(other, Semver):
-            return self.__lesser__(other)
-
+            return self.__compare(other) < 0
         return False
 
     def __le__(self, other: object) -> bool:
-        return self == other or self < other
-
-    def __greater__(self, other: Self) -> bool:
-        for a, b in self.__zip_with(other):
-            if a > b:
-                return True
-
+        if isinstance(other, Semver):
+            return self.__compare(other) <= 0
         return False
 
-    def __lesser__(self, other: Self) -> bool:
-        for a, b in self.__zip_with(other):
-            if a < b:
-                return True
+    def __compare(self, other: Self) -> int:
+        s, o = self.as_tuple(), other.as_tuple()
+        if s != o:
+            return (s > o) - (s < o)
+        return self.__compare_pre_release(other)
 
-        return False
+    def __compare_pre_release(self, other: Self) -> int:
+        if not self.pre_release and not other.pre_release:
+            return 0
+        if not self.pre_release:
+            return 1
+        if not other.pre_release:
+            return -1
 
-    def __zip_with(self, other: Self) -> Iterator[tuple[int, int]]:
-        return zip(self.as_tuple(), other.as_tuple(), strict=True)
+        self_ids = self.pre_release.split(".")
+        other_ids = other.pre_release.split(".")
+
+        for self_id, other_id in zip(self_ids, other_ids, strict=False):
+            if self_id == other_id:
+                continue
+            self_numeric = self_id.isdigit()
+            other_numeric = other_id.isdigit()
+
+            if self_numeric and other_numeric:
+                result = int(self_id) - int(other_id)
+            elif self_numeric:
+                result = -1
+            elif other_numeric:
+                result = 1
+            else:
+                result = (self_id > other_id) - (self_id < other_id)
+
+            if result != 0:
+                return result
+
+        return len(self_ids) - len(other_ids)
 
     def __str__(self) -> str:
         result = f"{self.major}.{self.minor}.{self.patch}"
