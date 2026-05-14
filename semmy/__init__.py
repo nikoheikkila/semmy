@@ -1,6 +1,6 @@
 import re
 from dataclasses import dataclass
-from typing import Self
+from typing import Self, override
 
 # See: https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
 SEMVER_REGEX = re.compile(
@@ -75,6 +75,7 @@ class Semver:
         """Bumps the patch version component and adds pre-release tag"""
         return self.bump_patch(pre_release=metadata)
 
+    @override
     def __eq__(self, other: object) -> bool:
         if isinstance(other, Semver):
             return str(self) == str(other)
@@ -138,6 +139,7 @@ class Semver:
 
         return len(self_ids) - len(other_ids)
 
+    @override
     def __str__(self) -> str:
         result = f"{self.major}.{self.minor}.{self.patch}"
 
@@ -148,5 +150,6 @@ class Semver:
 
         return result
 
+    @override
     def __repr__(self) -> str:
         return f"Version ({self})"

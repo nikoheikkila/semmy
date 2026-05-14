@@ -22,7 +22,7 @@ tasks:
       - install
     cmds:
       - uv run ruff check .
-      - uv run mypy --strict -p semmy
+      - uv run pyrefly check
 
   test:
     desc: Run all the tests

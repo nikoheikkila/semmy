@@ -33,7 +33,7 @@ build-backend = "hatchling.build"
 dev = [
     "pytest>=8.0.0",
     "pytest-mock>=3.6.1",
-    "mypy>=1.0",
+    "pyrefly>=1.0",
     "black>=24.0.0",
     "ruff>=0.1.0",
     "mutmut>=3.5,<4",
@@ -69,19 +69,10 @@ ignore = [
 [tool.ruff.lint.per-file-ignores]
 "tests/*" = ["B018"]  # Allow "useless" expressions in tests
 
-[tool.mypy]
-python_version = "3.14"
-warn_return_any = true
-warn_unused_configs = true
-disallow_untyped_defs = true
-disallow_incomplete_defs = true
-check_untyped_defs = true
-no_implicit_optional = true
-strict_optional = true
-
-[[tool.mypy.overrides]]
-module = "assertpy"
-ignore_missing_imports = true
+[tool.pyrefly]
+python-version = "3.14"
+preset = "strict"
+ignore-missing-imports = ["assertpy"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

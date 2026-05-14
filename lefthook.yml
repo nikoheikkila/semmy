@@ -14,5 +14,5 @@ pre-commit:
     flake8:
       glob: "*.py"
       run: poetry run flake8 {staged_files}
-    mypy:
-      run: poetry run mypy --strict .
+    pyrefly:
+      run: uv run pyrefly check

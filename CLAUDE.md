@@ -9,7 +9,7 @@ All tasks are run via [Task](https://taskfile.dev). Dependencies are managed wit
 ```sh
 task install       # uv sync — install all dependencies
 task format        # ruff format .
-task lint          # ruff check . && mypy --strict -p semmy
+task lint          # ruff check . && pyrefly check
 task test          # runs lint then pytest
 task build         # uv build
 ```
@@ -52,7 +52,7 @@ assert_that(str(Semver.from_string("1.2.3"))).is_equal_to("1.2.3")
 
 Parametrize with `@pytest.mark.parametrize`. Test vectors for valid/invalid semver strings come from the semver.org spec — when adding new cases, follow that source.
 
-Mypy runs in strict mode; all new code must pass `mypy --strict -p semmy` without ignores.
+Pyrefly runs in strict mode (`preset = "strict"`); all new code must pass `uv run pyrefly check` without errors. Use `@override` on any method that overrides a parent class method.
 
 ## Code Style
 
